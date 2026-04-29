@@ -42,7 +42,6 @@ CACHE_FILE = "recipe_embeddings_final.pkl"
 
 # ---------------------------------------------------------
 # 2. 데이터셋 생성 (100개 + 상세 조리법) 
-# (데이터가 길어 생략 없이 복사할 수 있도록 이전 답변과 동일한 데이터 100개)
 # ---------------------------------------------------------
 @st.cache_data
 def generate_recipe_data():
@@ -222,7 +221,7 @@ def load_or_create_embeddings(df):
     return embeddings
 
 # ---------------------------------------------------------
-# 4. 코사인 유사도 연산 함수 (요구사항 완벽 대응을 위한 주석 보강)
+# 4. 코사인 유사도 연산 함수
 # ---------------------------------------------------------
 def custom_cosine_similarity(vec1, vec2):
     """
@@ -284,7 +283,7 @@ with st.sidebar:
     st.markdown("2️⃣ **Enriched 임베딩:** 속성 결합 텍스트 전처리")
     st.markdown("3️⃣ **비교 분석 툴:** 키워드 검색 방식과 비교 기능 제공")
 
-st.title("🍲 하이브리드 레시피 검색기")
+st.title("🍲 시맨틱 레시피 검색기")
 st.markdown("<p class='big-font'>추천된 메뉴의 카드를 <b>클릭</b>하면 상세 조리법(Recipe)을 확인할 수 있습니다.</p>", unsafe_allow_html=True)
 st.write("")
 
