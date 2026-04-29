@@ -283,7 +283,7 @@ with st.sidebar:
     st.markdown("2️⃣ **Enriched 임베딩:** 속성 결합 텍스트 전처리")
     st.markdown("3️⃣ **비교 분석 툴:** 키워드 검색 방식과 비교 기능 제공")
 
-st.title("🍲 시맨틱 레시피 검색기")
+st.title("🍲 하이브리드 레시피 검색기")
 st.markdown("<p class='big-font'>추천된 메뉴의 카드를 <b>클릭</b>하면 상세 조리법(Recipe)을 확인할 수 있습니다.</p>", unsafe_allow_html=True)
 st.write("")
 
@@ -325,9 +325,14 @@ if submit_button:
                         sim += 0.01 
                 
                 # [특수 필터 1] 맛에 대한 확고한 조건 제어
-                if "매콤" in query or "매운" in query or "얼큰" in query:
-                    if not any(word in taste for word in ["매콤", "매운", "얼큰", "불맛", "자극적", "칼칼"]):
-                        sim -= 0.2
+                spicy_triggers = ["매콤", "매운", "맵고", "맵게", "얼큰", "칼칼", "자극", "매워"]
+                
+                # 사용자의 검색어에 매운맛 관련 단어가 하나라도 포함되어 있다면
+                if any(trigger in query for trigger in spicy_triggers):
+                    # DB의 맛(taste) 설명에 아래 단어들이 하나도 없다면 가차없이 페널티
+                    spicy_tastes = ["매콤", "매운", "얼큰", "불맛", "자극적", "칼칼", "매움", "맵고", "매워"]
+                    if not any(word in taste for word in spicy_tastes):
+                        sim -= 0.3
                 
                 # [특수 필터 2] '간단' 속성 제어
                 if "간단" in query or "빠른" in query:
